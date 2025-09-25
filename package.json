@@ -7,7 +7,6 @@
     "dev": "wrangler dev",
     "start": "wrangler dev",
     "cf-typegen": "wrangler types",
-    "migration:create": "eval $(grep '^DB_NAME' .env) && npx wrangler d1 migrations create ${DB_NAME}",
     "migrate": "npx prisma migrate deploy",
     "migrate:new": "npx prisma migrate dev"
   },

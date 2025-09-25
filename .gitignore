@@ -169,3 +169,4 @@ dist
 /src/generated/prisma
 
 .vscode/
+*.db
