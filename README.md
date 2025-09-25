@@ -1,25 +1,104 @@
-# Cloudflare Workers OpenAPI 3.1
+# 🎫 Event Signup App (Work in progress...)
 
-This is a Cloudflare Worker with OpenAPI 3.1 using [chanfana](https://github.com/cloudflare/chanfana) and [Hono](https://github.com/honojs/hono).
+A serverless event signup application built with Cloudflare Workers, featuring user registration, admin approval workflow, and automated email notifications with QR codes.
 
-This is an example project made to be used as a quick start into building OpenAPI compliant Workers that generates the
-`openapi.json` schema automatically from code and validates the incoming request to the defined parameters or request body.
+## ✨ Features
 
-## Get started
+- **User Registration**: Simple signup with email and name
+- **Bulk Admin Actions**: Approve/reject multiple users at once  
+- **Email Notifications**: Automated emails with QR codes for approved users
+- **Smart Placement**: Optimized global performance
+- **Queue Processing**: Reliable background email processing
 
-1. Sign up for [Cloudflare Workers](https://workers.dev). The free tier is more than enough for most use cases.
-2. Clone this project and install dependencies with `npm install`
-3. Run `wrangler login` to login to your Cloudflare account in wrangler
-4. Run `wrangler deploy` to publish the API to Cloudflare Workers
+## 🛠️ Tech Stack
 
-## Project structure
+- **Runtime**: Cloudflare Workers
+- **Framework**: Hono + Chanfana (OpenAPI)
+- **Database**: Cloudflare D1 (SQLite)
+- **ORM**: Prisma with D1 adapter
+- **Queues**: Cloudflare Worker Queues
+- **Email**: Cloudflare Email Workers
 
-1. Your main router is defined in `src/index.ts`.
-2. Each endpoint has its own file in `src/endpoints/`.
-3. For more information read the [chanfana documentation](https://chanfana.pages.dev/) and [Hono documentation](https://hono.dev/docs).
+## 🚀 Quick Start
 
-## Development
+### 1. Clone and Install
+```bash
+git clone <repo-url>
+cd event-signup-app
+npm install
+```
 
-1. Run `wrangler dev` to start a local instance of the API.
-2. Open `http://localhost:8787/` in your browser to see the Swagger interface where you can try the endpoints.
-3. Changes made in the `src/` folder will automatically trigger the server to reload, you only need to refresh the Swagger interface.
+### 2. Setup Database
+```bash
+npx prisma generate
+npm run migrate
+```
+
+### 3. Configure Environment
+```bash
+cp .env.example .env
+# Update DATABASE_URL and other variables
+```
+
+### 4. Deploy or Run Local
+```bash
+npm run deploy  # Deploy to Cloudflare
+npm run dev     # Start local development
+```
+
+## 📡 API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/signup` | User registration |
+| `GET` | `/api/admin/requests` | List pending requests |
+| `POST` | `/api/admin/approve` | Bulk approve users |
+| `POST` | `/api/admin/reject` | Bulk reject users |
+
+### Bulk Actions Request Body
+```json
+{
+  "emails": [
+    "user1@example.com",
+    "user2@example.com", 
+    "user3@example.com"
+  ]
+}
+```
+
+## 💾 Database Schema
+
+### User Table
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | Integer | Primary key |
+| `email` | String | User email address |
+| `firstname` | String | User first name |
+| `lastname` | String | User last name |
+| `status` | String | Registration status |
+| `created_at` | DateTime | Timestamp |
+
+### Admin Table
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | Integer | Primary key |
+| `email` | String | Admin email |
+| `password` | String | Hashed password |
+| `created_at` | DateTime | Timestamp |
+
+## 🔧 Development
+
+```bash
+npm run dev          # Start local development server
+npm run deploy       # Deploy to Cloudflare Workers
+```
+
+Visit [http://localhost:8787/](http://localhost:8787/) for the OpenAPI documentation.
+
+## 📝 License
+
+[Add your license here]
+
+## 🤝 Contributing
+
+[Add contribution guidelines here]
